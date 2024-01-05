@@ -1,0 +1,37 @@
+name: Publish package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Source package version
+        required: true
+  
+jobs:
+  publish:
+    name: Publish Nethermind.RocksDB.Bindings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Download official builds
+        run: |
+          version=$(echo "${{ github.event.inputs.version }}" | sed 's|\(.*\)\..*|\1|')
+          url=https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/$version/rocksdbjni-$version.jar
+          curl -sL $url -o rocksdbjni.jar
+          mkdir rocksdbjni
+          unzip rocksdbjni.jar -d rocksdbjni
+          mv rocksdbjni/librocksdbjni-linux-aarch64.so csharp/runtimes/linux-arm64/native/librocksdb.so
+          mv rocksdbjni/librocksdbjni-linux64.so csharp/runtimes/linux-x64/native/librocksdb.so
+          mv rocksdbjni/librocksdbjni-osx-arm64.jnilib csharp/runtimes/osx-arm64/native/librocksdb.dylib
+          mv rocksdbjni/librocksdbjni-osx-x86_64.jnilib csharp/runtimes/osx-x64/native/librocksdb.dylib
+          mv rocksdbjni/librocksdbjni-win64.dll csharp/runtimes/win-x64/native/rocksdb.dll
+      - name: Submit package
+        working-directory: csharp
+        run: | 
+          dotnet pack -c release \
+            -p:Version=${{ github.event.inputs.version }}-preview.${{ github.run_number }} \
+            -p:ContinuousIntegrationBuild=true
+          dotnet nuget push bin/release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://apiint.nugettest.org/v3/index.json
