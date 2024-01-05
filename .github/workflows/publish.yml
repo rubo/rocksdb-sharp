@@ -2,7 +2,7 @@ name: Publish package
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
     inputs:
       version:
@@ -33,9 +33,9 @@ jobs:
         run: |
           version=$(echo "${{ github.event.inputs.version }}" | sed 's|\(.*\)\..*|\1|')
           url=https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/$version/rocksdbjni-$version.jar
-          curl -sL $url -o rocksdbjni.jar
+          curl -sL $url -o rocksdbjni.zip
           mkdir rocksdbjni
-          unzip rocksdbjni.jar -d rocksdbjni
+          unzip rocksdbjni.zip -d rocksdbjni
       - name: Replace files
         run: |
           mv rocksdbjni/librocksdbjni-linux-aarch64.so origin/csharp/runtimes/linux-arm64/native/librocksdb.so
