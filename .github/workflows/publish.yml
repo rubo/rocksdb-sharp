@@ -36,7 +36,7 @@ jobs:
           curl -sL $url -o rocksdbjni.jar
           mkdir rocksdbjni
           cd rocksdbjni
-          jar xvf $GITHUB_WORKSPACE/rocksdb-sharp/rocksdbjni.jar
+          jar xf $GITHUB_WORKSPACE/rocksdbjni.jar
       - name: Replace files
         run: |
           mv rocksdbjni/librocksdbjni-linux-aarch64.so origin/csharp/runtimes/linux-arm64/native/librocksdb.so
