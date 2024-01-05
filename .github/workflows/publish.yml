@@ -35,7 +35,7 @@ jobs:
           url=https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/$version/rocksdbjni-$version.jar
           curl -sL $url -o rocksdbjni.jar
           mkdir rocksdbjni
-          ls
+          ls -l --block-size=M
          # unzip rocksdbjni.jar -d ./rocksdbjni/
       - name: Replace files
         run: |
