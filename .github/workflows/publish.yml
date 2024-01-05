@@ -35,8 +35,7 @@ jobs:
           url=https://repo1.maven.org/maven2/org/rocksdb/rocksdbjni/$version/rocksdbjni-$version.jar
           curl -sL $url -o rocksdbjni.jar
           mkdir rocksdbjni
-          cd rocksdbjni
-          jar xf $GITHUB_WORKSPACE/rocksdbjni.jar
+          unzip rocksdbjni.jar -d ./rocksdbjni/
       - name: Replace files
         run: |
           mv rocksdbjni/librocksdbjni-linux-aarch64.so origin/csharp/runtimes/linux-arm64/native/librocksdb.so
