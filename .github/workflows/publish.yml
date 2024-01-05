@@ -47,7 +47,7 @@ jobs:
       - name: Submit package
         working-directory: origin/csharp
         run: | 
-          dotnet pack -c release \
+          dotnet build -c release \
             -p:Version=${{ github.event.inputs.version }}-preview.${{ github.run_number }} \
             -p:ContinuousIntegrationBuild=true
           dotnet nuget push bin/release/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://apiint.nugettest.org/v3/index.json
