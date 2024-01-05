@@ -43,7 +43,7 @@ jobs:
           mv rocksdbjni/librocksdbjni-osx-arm64.jnilib origin/csharp/runtimes/osx-arm64/native/librocksdb.dylib
           mv rocksdbjni/librocksdbjni-osx-x86_64.jnilib origin/csharp/runtimes/osx-x64/native/librocksdb.dylib
           mv rocksdbjni/librocksdbjni-win64.dll origin/csharp/runtimes/win-x64/native/rocksdb.dll
-          cp -f overrides/csharp/RockDbSharp.csproj origin/csharp/RockDbSharp.csproj
+          cp -f overrides/csharp/RocksDbSharp.csproj origin/csharp/RocksDbSharp.csproj
       - name: Submit package
         working-directory: origin/csharp
         run: | 
